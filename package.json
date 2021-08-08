@@ -1,0 +1,11 @@
+{
+  "name": "proyect_podgroup",
+  "version": "1.0.0",
+  "description": "Project for the hiring process of POD GROUP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mateo Gomez-Randulfe",
+  "license": "ISC"
+}
