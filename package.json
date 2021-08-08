@@ -4,8 +4,14 @@
   "description": "Project for the hiring process of POD GROUP",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "eslint ./"
   },
   "author": "Mateo Gomez-Randulfe",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^27.0.6"
+  }
 }
