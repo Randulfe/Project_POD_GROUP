@@ -4,6 +4,11 @@ const axios = require('axios');
 
 const api = 'https://hummingbird-staging.podgroup.com';
 
+async function test() {
+  const caca = await Promise.resolve('test');
+  return caca;
+}
+
 async function getAccount() {
   /* eslint-disable prefer-const */
   let payload = {
@@ -18,7 +23,6 @@ async function getAccount() {
     };
     return account;
   } catch (e) {
-    console.log(e.message);
     return e.message;
   }
 }
@@ -124,5 +128,13 @@ async function activatAlleAsset() {
   }
 }
 
-getAccount();
+test();
 
+module.exports = {
+  test,
+  getAccount,
+  createUser,
+  listAssets,
+  activateAsset,
+  activatAlleAsset,
+};
