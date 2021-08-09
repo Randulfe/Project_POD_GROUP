@@ -1,14 +1,12 @@
 'use strict';
 
+// using axios to perform the API requests
 const axios = require('axios');
 
+// hostname
 const api = 'https://hummingbird-staging.podgroup.com';
 
-async function test() {
-  const caca = await Promise.resolve('test');
-  return caca;
-}
-
+// Def function to get account id and token
 async function getAccount() {
   /* eslint-disable prefer-const */
   let payload = {
@@ -27,7 +25,11 @@ async function getAccount() {
   }
 }
 
+// Function to create users, def values
+// eslint-disable-next-line max-len
 async function createUser(username='mateo', password='aaa', email='a@a.com', status='active') {
+  /* eslint-disable prefer-const */
+  let myUser = await getAccount();
   let payload = {
     'accountId': myUser.id,
     'username': username,
@@ -50,9 +52,6 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
     },
   };
 
-  /* eslint-disable prefer-const */
-  let myUser = await getAccount();
-
   axios.post(api+'/users', payload, config).then((data)=>{
     return data;
   }).catch((e)=>{
@@ -60,6 +59,7 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
   });
 }
 
+// Function to list all assets
 async function listAssets() {
 /* eslint-disable prefer-const */
   let myUser = await getAccount();
@@ -71,14 +71,16 @@ async function listAssets() {
 
   try {
     let data = await axios.get(api+'/assets?accountId='+myUser.id, config);
-    return data;
+    return data.data;
   } catch (e) {
     return e.message;
   }
 }
 
+/* Function to activate a single asset with def value set to the first asset
+/ of the account */
 async function activateAsset(asset='mateo.randulfe1') {
-/* eslint-disable prefer-const */
+// eslint-disable prefer-const
   let myUser = await getAccount();
   let config = {
     headers: {
@@ -95,6 +97,7 @@ async function activateAsset(asset='mateo.randulfe1') {
   };
 
   try {
+    // eslint-disable-next-line max-len
     let data = await axios.put(api+'/assets/'+asset+'/subscribe', payload, config);
     return data;
   } catch (e) {
@@ -102,6 +105,7 @@ async function activateAsset(asset='mateo.randulfe1') {
   }
 }
 
+// Bulk method to activate all assets of an account
 async function activatAlleAsset() {
   /* eslint-disable prefer-const */
   let myUser = await getAccount();
@@ -121,6 +125,7 @@ async function activatAlleAsset() {
   };
 
   try {
+    // eslint-disable-next-line max-len
     let data = await axios.post(api+'/bulk/assets/subscribe?accountId='+myUser.id, payload, config);
     return data;
   } catch (e) {
@@ -128,10 +133,8 @@ async function activatAlleAsset() {
   }
 }
 
-test();
-
+// export all functions to be used on the testing file
 module.exports = {
-  test,
   getAccount,
   createUser,
   listAssets,
