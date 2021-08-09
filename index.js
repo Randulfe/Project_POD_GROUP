@@ -64,8 +64,29 @@ async function listAssets() {
 
 
   let data = await axios.get(api+'/assets?accountId='+myUser.id, config);
+  console.log(data.data[0]);
+  return data;
+}
+
+async function activateAsset(asset='mateo.randulfe1') {
+/* eslint-disable prefer-const */
+  let myUser = await getAccount();
+  let config = {
+    headers: {
+      'x-access-token': myUser.token,
+    },
+  };
+
+  let payload = {
+    'accountId': myUser.id,
+    'subscription': {
+      'subscriberAccountId': myUser.id,
+      'productId': '610c18fcae701c0030d5be51',
+    },
+  };
+
+  let data = await axios.put(api+'/assets/'+asset+'/subscribe', payload, config);
   console.log(data);
   return data;
 }
 
-listAssets();
