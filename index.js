@@ -90,3 +90,28 @@ async function activateAsset(asset='mateo.randulfe1') {
   return data;
 }
 
+async function activatAlleAsset() {
+  /* eslint-disable prefer-const */
+  let myUser = await getAccount();
+  let config = {
+    headers: {
+      'x-access-token': myUser.token,
+    },
+  };
+
+  let payload ={
+    'data': {
+      'subscription': {
+        'subscriberAccount': myUser.id,
+        'productId': '610c18fcae701c0030d5be51',
+      },
+    },
+  };
+
+  let data = await axios.post(api+'/bulk/assets/subscribe?accountId='+myUser.id, payload, config);
+  console.log(data);
+  return data;
+}
+
+activatAlleAsset();
+
