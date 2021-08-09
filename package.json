@@ -4,14 +4,24 @@
   "description": "Project for the hiring process of POD GROUP",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "lint": "eslint ./"
+    "test": "cross-env NODE_ENV=test jest --verbose",
+    "lint": "npx run index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js"
   },
   "author": "Mateo Gomez-Randulfe",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0"
   }
 }
