@@ -1,29 +1,55 @@
 'use strict';
 
-const express = require('express');
-const helmet = require('helmet');
-const token = require('./authMiddleware');
-const PORT = 4300;
+const axios = require('axios');
 
-const app = express();
+const api = 'https://hummingbird-staging.podgroup.com';
 
-app.use(helmet()); // helmet protection
+async function getAccount() {
+  /* eslint-disable prefer-const */
+  let payload = {
+    'username': 'mateo.randulfe',
+    'password': 'efludnar.oetam',
+  };
+  let data = await axios.post(api+'/auth/token', payload);
+  let account = {
+    token: data.data.token,
+    id: data.data.user._id,
+    permissions: data.data.user.permissions,
+  };
 
-app.use(express.json()); // body parser
+  return account;
+}
 
-app.use(token.getToken);
+async function createUser(username, password, email, status) {
+/* eslint-disable prefer-const */
+  let myUser = await getAccount();
+  let payload = {
+    'accountId': myUser.id,
+    'username': username,
+    'password': password,
+    'email': email,
+    'status': status,
+    'permissions': {
+      'accountId': myUser.id,
+      'roles': [
+        'string',
+      ],
+    },
+  };
 
+  let config = {
+    headers: {
+      'x-access-token': '*************************',
+    },
+  };
 
-app.get('/', ( req, res)=>{
-  return res.status(200).send({message: 'ended'});
-});
+  axios.post(api+'/users', payload, config).then((data)=>{
+    console.log(data);
+    return data;
+  }).catch((e)=>{
+    console.log(e.message);
+    return e.message;
+  });
+}
 
-app.use((error, req, res, next) => {
-  return res.status(400).send({error: error.message});
-});
-
-
-app.listen(PORT, ()=>{
-  console.log('Server started on '+PORT);
-},
-);
+createUser('mateo', 'cassads', 'mateo@mateo.com', 'active');

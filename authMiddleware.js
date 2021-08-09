@@ -12,6 +12,8 @@ const payload = {
 module.exports.getToken = (req, res, next)=>{
   axios.post(api+'/auth/token', payload).then((data)=>{
     req.token = data.data.token;
+    req._id = data.data._id;
+    req.permissions = data.data.permissions;
     next();
   }).catch((e)=>{
     next(e);
