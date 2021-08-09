@@ -10,18 +10,20 @@ async function getAccount() {
     'username': 'mateo.randulfe',
     'password': 'efludnar.oetam',
   };
-  let data = await axios.post(api+'/auth/token', payload);
-  let account = {
-    token: data.data.token,
-    id: data.data.user.permissions[0].accountId,
-  };
-  return account;
+  try {
+    let data = await axios.post(api+'/auth/token', payload);
+    let account = {
+      token: data.data.token,
+      id: data.data.user.permissions[0].accountId,
+    };
+    return account;
+  } catch (e) {
+    console.log(e.message);
+    return e.message;
+  }
 }
 
 async function createUser(username='mateo', password='aaa', email='a@a.com', status='active') {
-/* eslint-disable prefer-const */
-  let myUser = await getAccount();
-
   let payload = {
     'accountId': myUser.id,
     'username': username,
@@ -44,11 +46,12 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
     },
   };
 
+  /* eslint-disable prefer-const */
+  let myUser = await getAccount();
+
   axios.post(api+'/users', payload, config).then((data)=>{
-    console.log(data);
     return data;
   }).catch((e)=>{
-    console.log(e.message);
     return e.message;
   });
 }
@@ -62,10 +65,12 @@ async function listAssets() {
     },
   };
 
-
-  let data = await axios.get(api+'/assets?accountId='+myUser.id, config);
-  console.log(data.data[0]);
-  return data;
+  try {
+    let data = await axios.get(api+'/assets?accountId='+myUser.id, config);
+    return data;
+  } catch (e) {
+    return e.message;
+  }
 }
 
 async function activateAsset(asset='mateo.randulfe1') {
@@ -85,9 +90,12 @@ async function activateAsset(asset='mateo.randulfe1') {
     },
   };
 
-  let data = await axios.put(api+'/assets/'+asset+'/subscribe', payload, config);
-  console.log(data);
-  return data;
+  try {
+    let data = await axios.put(api+'/assets/'+asset+'/subscribe', payload, config);
+    return data;
+  } catch (e) {
+    return e.message;
+  }
 }
 
 async function activatAlleAsset() {
@@ -108,10 +116,13 @@ async function activatAlleAsset() {
     },
   };
 
-  let data = await axios.post(api+'/bulk/assets/subscribe?accountId='+myUser.id, payload, config);
-  console.log(data);
-  return data;
+  try {
+    let data = await axios.post(api+'/bulk/assets/subscribe?accountId='+myUser.id, payload, config);
+    return data;
+  } catch (e) {
+    return e.message;
+  }
 }
 
-activatAlleAsset();
+getAccount();
 
