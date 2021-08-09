@@ -53,4 +53,19 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
   });
 }
 
-createUser();
+async function listAssets() {
+/* eslint-disable prefer-const */
+  let myUser = await getAccount();
+  let config = {
+    headers: {
+      'x-access-token': myUser.token,
+    },
+  };
+
+
+  let data = await axios.get(api+'/assets?accountId='+myUser.id, config);
+  console.log(data);
+  return data;
+}
+
+listAssets();
