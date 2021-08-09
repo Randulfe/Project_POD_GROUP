@@ -13,33 +13,34 @@ async function getAccount() {
   let data = await axios.post(api+'/auth/token', payload);
   let account = {
     token: data.data.token,
-    id: data.data.user._id,
-    permissions: data.data.user.permissions,
+    id: data.data.user.permissions[0].accountId,
   };
-
   return account;
 }
 
-async function createUser(username, password, email, status) {
+async function createUser(username='mateo', password='aaa', email='a@a.com', status='active') {
 /* eslint-disable prefer-const */
   let myUser = await getAccount();
+
   let payload = {
     'accountId': myUser.id,
     'username': username,
     'password': password,
     'email': email,
     'status': status,
-    'permissions': {
-      'accountId': myUser.id,
-      'roles': [
-        'string',
-      ],
-    },
+    'permissions': [
+      {
+        'accountId': myUser.id,
+        'roles': [
+          'user',
+        ],
+      },
+    ],
   };
 
   let config = {
     headers: {
-      'x-access-token': '*************************',
+      'x-access-token': myUser.token,
     },
   };
 
@@ -52,4 +53,4 @@ async function createUser(username, password, email, status) {
   });
 }
 
-createUser('mateo', 'cassads', 'mateo@mateo.com', 'active');
+createUser();
