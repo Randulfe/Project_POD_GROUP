@@ -13,6 +13,7 @@ async function getAccount() {
     'username': 'mateo.randulfe',
     'password': 'efludnar.oetam',
   };
+
   try {
     let data = await axios.post(api+'/auth/token', payload);
     let account = {
@@ -30,6 +31,13 @@ async function getAccount() {
 async function createUser(username='mateo', password='aaa', email='a@a.com', status='active') {
   /* eslint-disable prefer-const */
   let myUser = await getAccount();
+
+  let config = {
+    headers: {
+      'x-access-token': myUser.token,
+    },
+  };
+
   let payload = {
     'accountId': myUser.id,
     'username': username,
@@ -46,12 +54,6 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
     ],
   };
 
-  let config = {
-    headers: {
-      'x-access-token': myUser.token,
-    },
-  };
-
   axios.post(api+'/users', payload, config).then((data)=>{
     return data;
   }).catch((e)=>{
@@ -63,6 +65,7 @@ async function createUser(username='mateo', password='aaa', email='a@a.com', sta
 async function listAssets() {
 /* eslint-disable prefer-const */
   let myUser = await getAccount();
+
   let config = {
     headers: {
       'x-access-token': myUser.token,
@@ -82,6 +85,7 @@ async function listAssets() {
 async function activateAsset(asset='mateo.randulfe1') {
 // eslint-disable prefer-const
   let myUser = await getAccount();
+
   let config = {
     headers: {
       'x-access-token': myUser.token,
@@ -109,6 +113,7 @@ async function activateAsset(asset='mateo.randulfe1') {
 async function activatAlleAsset() {
   /* eslint-disable prefer-const */
   let myUser = await getAccount();
+
   let config = {
     headers: {
       'x-access-token': myUser.token,
